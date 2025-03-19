@@ -28,6 +28,18 @@ class CodeBlock:
     def add_code_block(self, tree):
         self.ast.children[0].children.insert(-1, tree.ast)
 
+class TransformObfuscationBlock(CodeBlock):
+    def __init__(self):
+        self.option_block_token = 'PROCESS_INJECT_LOCAL_OPTION'
+        self.ast = Tree('transform_obfuscate',
+        [
+            Tree('transform_block',
+            [
+                Token('BEGIN_CODE_BLOCK_DELIM', '{'),
+                Token('END_CODE_BLOCK_DELIM', '}')
+            ])
+        ])
+
 class HttpGetBlock(CodeBlock):
     def __init__(self, variant_name=None):
         self.option_block_token = 'HTTP_LOCAL_OPTION'
